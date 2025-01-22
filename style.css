@@ -1,0 +1,338 @@
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Fira+Code:wght@300..700&family=Itim&family=Karla:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --light-red: #c83b0e;
+  --light-pink: #fcf8f5;
+}
+
+body {
+  background-color: var(--light-pink);
+  font-family: "Rubik", serif;
+}
+
+.container {
+  max-width: 1216px;
+  margin: 0 auto;
+  padding: 30px 15px;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 800px auto;
+  column-gap: 20px;
+}
+
+.cards-section {
+  height: 100%;
+}
+
+.cards-section > h1 {
+  font-size: 28px;
+  color: #333;
+}
+
+.basket-section {
+  min-height: 216px;
+  background-color: white;
+  padding: 12px 19px;
+  border-radius: 12px;
+  box-shadow: 2px 1.2px 4px;
+  max-height: 100vh;
+  overflow: scroll;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 14px;
+  margin: 25px 0;
+}
+
+.card {
+  min-height: 200px;
+  max-width: 270px;
+  border-radius: 12px;
+}
+
+.card_content h5 {
+  font-weight: 400;
+  color: rgb(138, 121, 121);
+}
+
+.card_content h2 {
+  font-size: 20px;
+  color: #333;
+  margin: 6px 0;
+}
+
+.card_content p {
+  color: var(--light-red);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.img-container {
+  width: 100%;
+  height: 212px;
+  margin-bottom: 40px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  /* border: var(--light-red) 2px solid; */
+  border-radius: 12px;
+  box-shadow: -1px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.card-active-border {
+  border: var(--light-red) 2px solid;
+}
+
+.add-btn {
+  background-color: white;
+  border: 2px solid var(--light-red);
+  color: var(--light-red);
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 40px;
+  display: block;
+  position: absolute;
+  bottom: -16px;
+  margin: auto;
+  cursor: pointer;
+}
+
+.btn-group {
+  bottom: 0;
+  background-color: rgb(233, 44, 10);
+  color: rgb(3, 0, 0);
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 40px;
+  width: 160px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  position: absolute;
+  bottom: -16px;
+  margin: auto;
+  cursor: pointer;
+}
+
+.btn-group button {
+  background-color: whitesmoke;
+  color: rgb(3, 0, 0);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+li {
+  list-style-type: none;
+}
+
+.btn-group button:hover {
+  background-color: lightgray;
+}
+
+.card_content button:active {
+  transform: scale(1.08);
+}
+
+.js-display {
+  display: none !important;
+}
+
+.your_cart {
+  font-size: 30px;
+  color: var(--light-red);
+}
+
+.wrapper-list {
+  overflow-y: auto;
+  max-height: 400px;
+  margin-bottom: 10px;
+}
+
+.cart_item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 14px;
+  border-bottom: 0.3px solid #333;
+}
+
+.cart-products {
+  min-height: 350px;
+  max-height: 100vh;
+  background-color: white;
+}
+
+.product_item h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.cart_item_info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quantity {
+  color: var(--light-red);
+  font-weight: 500;
+}
+
+.total-price {
+  color: rgb(133, 133, 133);
+}
+
+.price {
+  color: gray;
+}
+
+.remove_item {
+  background-color: transparent;
+  border: 1px solid black;
+  height: 27px;
+  width: 27px;
+  border-radius: 50%;
+}
+
+.remove_item:hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.remove_item i {
+  font-size: 20px;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+}
+/* Scrollbar kengligini va balandligini sozlash */
+::-webkit-scrollbar {
+  width: 1px; /* Vertical scrollbar uchun kenglik */
+  height: 4px; /* Horizontal scrollbar uchun balandlik */
+}
+
+/* Thumb (siljiydigan qism) dizayni */
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Thumb rangi */
+  border-radius: 10px; /* Thumb burchaklarini dumaloqlash */
+}
+
+/* Track (fon) dizayni */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track foni */
+}
+
+.carbon-div {
+  background-color: bisque;
+  padding: 16px 19px;
+  margin: 14px 0;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.btn-confirm {
+  background-color: var(--light-red);
+  display: block;
+  width: 100%;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 29px;
+  cursor: pointer;
+  margin-top: 16px;
+  font-size: 16px;
+}
+
+.btn-confirm:hover {
+  background-color: #cf6a49;
+}
+
+.btn-confirm:active {
+  transform: scale(0.95);
+}
+
+.your-products-li {
+  /* background-color: red; */
+}
+
+.cart_item_wrapper {
+  overflow: auto; /* Enables scrolling */
+  max-height: 300px; /* Adjust the max height as needed */
+}
+
+.cart_item_wrapper {
+  -ms-overflow-style: none; /* Hides scrollbar for IE/Edge */
+  scrollbar-width: none; /* Hides scrollbar for Firefox */
+}
+
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 13px;
+  gap: 12px;
+}
+
+.empty-cart img {
+  width: 160px;
+}
+
+.empty-cart p {
+  color: var(--light-red);
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .container {
+    grid-template-columns: auto;
+  }
+}
+
+@media (max-width: 650px) {
+  .cards {
+    grid-template-columns: auto auto;
+  }
+}
+@media (max-width: 400px) {
+  .cards {
+    grid-template-columns: auto;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+}

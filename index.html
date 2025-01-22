@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <title>Frontend Mentor | Product list with cart</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <section class="container">
+      <section class="cards-section">
+        <h1>Deserts</h1>
+
+        <main id="main" class="cards">
+        <!-- Product cards go here -->
+        </main>
+      </section>
+
+      <section>
+        <div class="basket-section">
+          <h1 class="your_cart">Your cart <span id="count_cart">0</span></h1>
+          <br />
+          <div class="order-section js-display">
+            <ul id="cart-products" class=" cart_item_wrapper">
+              <!-- Your cart data comes here -->
+               <div class="wrapper-list">
+                <div class="your-products-li">
+                  <li class="cart_item">
+                    <div>
+                      <h3>Pahlava</h3>
+                      <div class="cart_item_info">
+                        <span class="quantity">x11</span>
+                        •
+                        <span class="total-price">$46</span>
+                        •
+                        <span class="price">$23</span>
+                      </div>
+                    </div>
+                    <button class="remove_item" onclick='removeFromCart("${item.name}")'>
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </li>
+                </div>
+                
+               </div>
+            </ul>
+            <div class="cart_total">
+              <div class="order-total">
+                <p>Order Total</p>
+                <h2>$234</h2>
+              </div>
+        
+              <div class="carbon-div">
+                <p>This is a carbon-neutral delivery</p>
+              </div>
+        
+              <div>
+                <button class="btn-confirm">Confirm Order</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="empty-cart">
+            <img src="./assets/images/illustration-empty-cart.svg" alt="illustr empty">
+            <p>Your added items will appear here</p>
+          </div>
+
+        </div>
+      </section>
+    </section>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
