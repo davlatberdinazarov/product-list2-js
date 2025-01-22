@@ -102,36 +102,32 @@ const data = [
 
 // VARIABLES
 let cardsWrapper = document.querySelector("#main");
-let listWrapper = document.querySelector(".wrapper-list");
 
 let cart = [];
 
-// FUNCTIONS
 const displayCards = () => {
-  // Kartalarni aniqlash uchun `data` ni aylanib chiqamiz
   data.forEach((el, idx) => {
-    // `cart` dan hozirgi elementni topamiz
-    let isInCart = cart.find((c) => c.name == el.name);
-    let quantity = isInCart ? isInCart.quantity : 0;
-
+    isInCart = cart.find((c) => c.name === el.name);
+    quantity = isInCart ? isInCart.quantity : 0;
     // Yangi karta elementini yaratamiz
     let card = document.createElement("div");
     card.classList.add("card");
+
     card.innerHTML = `
-        <div class="img-container">
-          <img src="${el.image.desktop}" alt="${el.name}" />
-          <button class="add-btn ${
-            quantity > 0 ? "js-display" : ""
-          }">Add to cart</button>
-          <div class="btn-group ${quantity > 0 ? "" : "js-display"}">
-            <button class="increment-btn">+</button>
-            <span id="quantity-${idx + 1}">${quantity}</span>
-            <button class="decrement-btn">-</button>
-          </div> 
-        </div>
-        <h3>${el.name}</h3>
-        <p>$${el.price}</p>
-      `;
+    <div class="img-container">
+      <img src="${el.image.desktop}" alt="${el.name}" />
+      <button class="add-btn ${
+        quantity > 0 ? "js-display" : ""
+      }">Add to cart</button>
+      <div class="btn-group ${quantity > 0 ? "" : "js-display"}">
+        <button class="increment-btn">+</button>
+        <span id="quantity-${idx + 1}">${quantity}</span>
+        <button class="decrement-btn">-</button>
+      </div> 
+    </div>
+    <h3>${el.name}</h3>
+    <p>$${el.price}</p>
+  `;
 
     // HTML elementlarini aniqlaymiz
     let addBtn = card.querySelector(".add-btn");
@@ -142,6 +138,7 @@ const displayCards = () => {
     // "Add to cart" tugmasiga event listener qo'shamiz
     addBtn.addEventListener("click", () => {
       let isExisting = cart.find((c) => c.name === el.name);
+      console.log("IsExisting: ", isExisting);
       if (!isExisting) {
         // Agar element hali kartaga qo'shilmagan bo'lsa
         cart.push({ ...el, quantity: 1 });
@@ -149,6 +146,8 @@ const displayCards = () => {
         // Agar element allaqachon kartada bo'lsa, uning miqdorini oshiramiz
         isExisting.quantity++;
       }
+
+      console.log("cart: ", cart);
 
       // Kartani yangilash
       isInCart = cart.find((c) => c.name === el.name);
@@ -182,7 +181,6 @@ const displayCards = () => {
       if (isExisting && isExisting.quantity > 0) {
         isExisting.quantity--;
         quantity = isExisting.quantity;
-        console.log("Yangilangan cart:", cart);
 
         // Agar miqdor 0 bo'lsa, kartani yashiramiz
         if (quantity === 0) {
@@ -194,16 +192,18 @@ const displayCards = () => {
         // UI ni yangilash
         card.querySelector(`#quantity-${idx + 1}`).innerText = quantity;
         renderCartProducts();
+        console.log("Yangilangan cart:", cart);
       }
     });
 
     // Tayyorlangan kartani `cardsWrapper` ga qo'shamiz
     cardsWrapper.appendChild(card);
-
-    renderCartProducts();
   });
 };
 
+let listWrapper = document.querySelector(".wrapper-list");
+console.log(listWrapper);
+// basket rendering function
 const renderCartProducts = () => {
   // Kartalar uzunligini yangilash
   let cartLength = document.querySelector("#count_cart");
@@ -218,6 +218,42 @@ const renderCartProducts = () => {
     // Bo'sh kartani yashirish
     emptyCartSection.classList.add("js-display");
     orderSection.classList.remove("js-display");
+
+    listWrapper.innerHTML = ''
+    cart.forEach((el, index) => {
+      let productList = document.createElement("div");
+      productList.classList.add("your-products-li");
+
+      
+      productList.innerHTML = `
+        <li class="cart_item">
+          <div>
+            <h3>${el.name}</h3>
+            <div class="cart_item_info">
+              <span class="quantity">x${el.quantity}</span>
+              •
+              <span class="total-price">$${(el.price * el.quantity).toFixed(2)}</span>
+              •
+              <span class="price">$${el.price.toFixed(2)}</span>
+            </div>
+          </div>
+          <button class="remove_item" onclick='removeFromCart("${el.name}")'>
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </li>
+      `;
+
+      let removeBtn = productList.querySelector('.remove_item');
+      removeBtn.addEventListener('click', () => {
+        // Cartdan mahsulotni o'chirish
+        cart = cart.filter((item) => item.name !== el.name);
+
+        // UI-ni qayta chizish
+        renderCartProducts();
+      });
+
+      listWrapper.appendChild(productList);
+    });
   } else {
     // Order bo'limini yashirish
     emptyCartSection.classList.remove("js-display");
@@ -225,7 +261,12 @@ const renderCartProducts = () => {
   }
 };
 
+// Elementni kartadan olib tashlash funksiyasi
+// const removeFromCart = (name) => {
+//   cart = cart.filter((item) => item.name !== name);
+//   renderCartProducts();
+//   displayCards(); // UIni yangilash
+// };
 
-// Har safar kartalar o'zgarganda UI yangilanadi
-renderCartProducts();
 displayCards();
+renderCartProducts();
