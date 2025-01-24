@@ -105,29 +105,35 @@ let cardsWrapper = document.querySelector("#main");
 
 let cart = [];
 
+// FUNCTIONS
 const displayCards = () => {
+  // Kartalarni aniqlash uchun `data` ni aylanib chiqamiz
+  cardsWrapper.innerHTML = "";
   data.forEach((el, idx) => {
-    isInCart = cart.find((c) => c.name === el.name);
-    quantity = isInCart ? isInCart.quantity : 0;
+    // `cart` dan hozirgi elementni topamiz
+    let isInCart = cart.find((c) => c.name == el.name);
+    let quantity = isInCart ? isInCart.quantity : 0;
+    console.log("display funksiyasi ishladi: ", cart);
+
     // Yangi karta elementini yaratamiz
+
     let card = document.createElement("div");
     card.classList.add("card");
-
     card.innerHTML = `
-    <div class="img-container">
-      <img src="${el.image.desktop}" alt="${el.name}" />
-      <button class="add-btn ${
-        quantity > 0 ? "js-display" : ""
-      }">Add to cart</button>
-      <div class="btn-group ${quantity > 0 ? "" : "js-display"}">
-        <button class="increment-btn">+</button>
-        <span id="quantity-${idx + 1}">${quantity}</span>
-        <button class="decrement-btn">-</button>
-      </div> 
-    </div>
-    <h3>${el.name}</h3>
-    <p>$${el.price}</p>
-  `;
+        <div class="img-container">
+          <img src="${el.image.desktop}" alt="${el.name}" />
+          <button class="add-btn ${
+            quantity > 0 ? "js-display" : ""
+          }">Add to cart</button>
+          <div class="btn-group ${quantity > 0 ? "" : "js-display"}">
+            <button class="increment-btn">+</button>
+            <span id="quantity-${idx + 1}">${quantity}</span>
+            <button class="decrement-btn">-</button>
+          </div> 
+        </div>
+        <h3>${el.name}</h3>
+        <p>$${el.price}</p>
+      `;
 
     // HTML elementlarini aniqlaymiz
     let addBtn = card.querySelector(".add-btn");
@@ -138,7 +144,6 @@ const displayCards = () => {
     // "Add to cart" tugmasiga event listener qo'shamiz
     addBtn.addEventListener("click", () => {
       let isExisting = cart.find((c) => c.name === el.name);
-      console.log("IsExisting: ", isExisting);
       if (!isExisting) {
         // Agar element hali kartaga qo'shilmagan bo'lsa
         cart.push({ ...el, quantity: 1 });
@@ -146,8 +151,6 @@ const displayCards = () => {
         // Agar element allaqachon kartada bo'lsa, uning miqdorini oshiramiz
         isExisting.quantity++;
       }
-
-      console.log("cart: ", cart);
 
       // Kartani yangilash
       isInCart = cart.find((c) => c.name === el.name);
@@ -181,6 +184,7 @@ const displayCards = () => {
       if (isExisting && isExisting.quantity > 0) {
         isExisting.quantity--;
         quantity = isExisting.quantity;
+        console.log("Yangilangan cart:", cart);
 
         // Agar miqdor 0 bo'lsa, kartani yashiramiz
         if (quantity === 0) {
@@ -192,18 +196,17 @@ const displayCards = () => {
         // UI ni yangilash
         card.querySelector(`#quantity-${idx + 1}`).innerText = quantity;
         renderCartProducts();
-        console.log("Yangilangan cart:", cart);
       }
     });
 
     // Tayyorlangan kartani `cardsWrapper` ga qo'shamiz
     cardsWrapper.appendChild(card);
+
+    renderCartProducts();
   });
 };
 
 let listWrapper = document.querySelector(".wrapper-list");
-console.log(listWrapper);
-// basket rendering function
 const renderCartProducts = () => {
   // Kartalar uzunligini yangilash
   let cartLength = document.querySelector("#count_cart");
@@ -219,12 +222,12 @@ const renderCartProducts = () => {
     emptyCartSection.classList.add("js-display");
     orderSection.classList.remove("js-display");
 
-    listWrapper.innerHTML = ''
+    listWrapper.innerHTML = "";
+    // Cart ni yangilash
     cart.forEach((el, index) => {
       let productList = document.createElement("div");
       productList.classList.add("your-products-li");
 
-      
       productList.innerHTML = `
         <li class="cart_item">
           <div>
@@ -232,25 +235,32 @@ const renderCartProducts = () => {
             <div class="cart_item_info">
               <span class="quantity">x${el.quantity}</span>
               •
-              <span class="total-price">$${(el.price * el.quantity).toFixed(2)}</span>
+              <span class="total-price">$${(el.price * el.quantity).toFixed(
+                2
+              )}</span>
               •
               <span class="price">$${el.price.toFixed(2)}</span>
             </div>
           </div>
-          <button class="remove_item" onclick='removeFromCart("${el.name}")'>
+          <button class="remove_item">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </li>
       `;
 
-      let removeBtn = productList.querySelector('.remove_item');
-      removeBtn.addEventListener('click', () => {
+      let removeBtn = productList.querySelector(".remove_item");
+      removeBtn.addEventListener("click", () => {
         // Cartdan mahsulotni o'chirish
         cart = cart.filter((item) => item.name !== el.name);
 
-        // UI-ni qayta chizish
-        renderCartProducts();
+        // // UI-ni qayta chizish
+        // renderCartProducts();
+        displayCards();
       });
+
+      // total price:
+      let totalPrice = document.querySelector("#total-price");
+      totalPrice.innerText = `$${findTotalPrice()}`;
 
       listWrapper.appendChild(productList);
     });
@@ -261,12 +271,43 @@ const renderCartProducts = () => {
   }
 };
 
-// Elementni kartadan olib tashlash funksiyasi
-// const removeFromCart = (name) => {
-//   cart = cart.filter((item) => item.name !== name);
-//   renderCartProducts();
-//   displayCards(); // UIni yangilash
-// };
+// Find total price
+const findTotalPrice = () => {
+  let totalPriceCount = cart.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+  }, 0);
 
-displayCards();
+  return totalPriceCount.toFixed(2);
+};
+
+// modal rendering
+let modalBackdrop = document.querySelector(".modal-backdrop");
+let startNewOrderBtn = document.querySelector("#start-order-btn");
+let modalCard = document.querySelector(".modal-card");
+let confirmBtn = document.querySelector("#btn-confirm");
+
+confirmBtn.addEventListener("click", () => {
+  modalBackdrop.classList.remove("js-display");
+});
+
+modalBackdrop.addEventListener("click", () => {
+  console.log("Modal backdrop clicked");
+})
+
+modalCard.addEventListener("click", (event) => {
+  event.stopPropagation(); // Hodisani modalCard'ga o'tishini to'xtatadi
+  console.log("Modal card clicked");
+});
+
+startNewOrderBtn.addEventListener("click", (event) => {
+  event.stopPropagation(); // Hodisani modalBackdrop'ga o'tishini to'xtatadi
+  console.log("Start new order button clicked");
+  modalBackdrop.classList.add("js-display");
+  cart = [];
+  renderCartProducts();
+  displayCards();
+});
+
+// Har safar kartalar o'zgarganda UI yangilanadi
 renderCartProducts();
+displayCards();

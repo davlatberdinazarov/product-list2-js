@@ -259,6 +259,9 @@ li {
   background-color: bisque;
   padding: 16px 19px;
   margin: 14px 0;
+  display: flex;
+  gap: 5px;
+  align-items: center;
   text-align: center;
   border-radius: 12px;
 }
@@ -282,10 +285,6 @@ li {
 
 .btn-confirm:active {
   transform: scale(0.95);
-}
-
-.your-products-li {
-  /* background-color: red; */
 }
 
 .cart_item_wrapper {

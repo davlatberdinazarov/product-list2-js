@@ -12,6 +12,7 @@
     />
     <title>Frontend Mentor | Product list with cart</title>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./modal.css">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -40,20 +41,22 @@
                <div class="wrapper-list">
                   <!-- Your cart data comes here -->
                 
+                  
                </div>
             </ul>
             <div class="cart_total">
               <div class="order-total">
                 <p>Order Total</p>
-                <h2>$234</h2>
+                <h2 id="total-price"></h2>
               </div>
         
               <div class="carbon-div">
+                <img src="./assets/images/icon-carbon-neutral.svg" alt="wfer">
                 <p>This is a carbon-neutral delivery</p>
               </div>
         
               <div>
-                <button class="btn-confirm">Confirm Order</button>
+                <button id="btn-confirm" class="btn-confirm">Confirm Order</button>
               </div>
             </div>
           </div>
@@ -66,6 +69,51 @@
         </div>
       </section>
     </section>
+
+    <!-- MODAL SECTION -->
+    <main class="modal-backdrop js-display">
+      <div class="modal-card">
+        <img src="./assets/images/icon-order-confirmed.svg" alt="order confirmed"> <br> <br>
+        <h1>Order Confirmed</h1>
+        <p class="paragrif">We hope you enjoy your food</p>
+
+        <div class="modal-wrapper-list">
+          <div class="modal-list-item">
+            <li class="modal-cart-item">
+              <div class="modal-items">
+                <img class="modal-cart-img" src="./assets/images/image-brownie-mobile.jpg" alt="dessert">
+                <div class="modal-cart-info">
+                  <h3>Pahlava</h3>
+                  <div class="cart_item_info">
+                    <span class="quantity">x3</span>
+                    •
+                    <span class="total-price">$34</span>
+                    •
+                    <span class="price">$3</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                $8.35
+              </div>
+            </li>
+          </div> 
+          
+         
+       </div>
+       <div class="modal-total-order">
+        <div class="order-total">
+          <p>Order Total</p>
+          <h2 id="total-price">$234</h2>
+        </div>
+  
+        <div>
+          <button id="start-order-btn" class="btn-confirm">Start New Order</button>
+        </div>
+      </div>
+      </div>
+    </main>
+    <!-- / MODAL SECTION -->
 
     <script src="./main.js"></script>
   </body>

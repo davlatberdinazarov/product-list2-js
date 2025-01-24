@@ -1,0 +1,87 @@
+:root {
+    --light-red: #c83b0e;
+    --light-pink: #fcf8f5;
+  }
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: rgba(0, 0, 0, 0.5); /* rgba bilan faqat fon shaffof bo'ladi */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-card {
+    background-color: white;
+    padding: 17px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    height: 550px;
+    width: 480px;
+    z-index: 1050;
+    opacity: 1; /* Bu endi faqat modal uchun ishlaydi */
+    pointer-events: auto; /* Eventlar qabul qilinadi */
+}
+
+.modal-card .paragrif {
+    color: rgb(160, 144, 144);
+    font-size: 16px;
+}
+
+/* modal cards */
+
+.modal-wrapper-list {
+    margin-top: 30px;
+    overflow-y: auto;
+    height: 230px;
+    margin-bottom: 10px;
+    background-color: rgba(255, 174, 174, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.modal-your-products-li {
+
+}
+
+.modal-cart-item {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    border-bottom: 0.3px solid rgb(172, 172, 172, 0.4);
+    padding-bottom: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-cart-item:hover{
+    background-color: rgba(255, 174, 174, 0.2);
+    cursor: pointer;
+}
+
+.modal-cart-info {
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modal-cart-img {
+    width: 55px;
+    height: 50px;
+    border-radius: 6px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.modal-items {
+    display: flex; 
+    gap: 12px;
+    align-items: center;
+}
