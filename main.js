@@ -105,35 +105,31 @@ let cardsWrapper = document.querySelector("#main");
 
 let cart = [];
 
-// FUNCTIONS
 const displayCards = () => {
-  // Kartalarni aniqlash uchun `data` ni aylanib chiqamiz
   cardsWrapper.innerHTML = "";
+
   data.forEach((el, idx) => {
-    // `cart` dan hozirgi elementni topamiz
-    let isInCart = cart.find((c) => c.name == el.name);
-    let quantity = isInCart ? isInCart.quantity : 0;
-    console.log("display funksiyasi ishladi: ", cart);
-
+    isInCart = cart.find((c) => c.name === el.name);
+    quantity = isInCart ? isInCart.quantity : 0;
     // Yangi karta elementini yaratamiz
-
     let card = document.createElement("div");
     card.classList.add("card");
+
     card.innerHTML = `
-        <div class="img-container">
-          <img src="${el.image.desktop}" alt="${el.name}" />
-          <button class="add-btn ${
-            quantity > 0 ? "js-display" : ""
-          }">Add to cart</button>
-          <div class="btn-group ${quantity > 0 ? "" : "js-display"}">
-            <button class="increment-btn">+</button>
-            <span id="quantity-${idx + 1}">${quantity}</span>
-            <button class="decrement-btn">-</button>
-          </div> 
-        </div>
-        <h3>${el.name}</h3>
-        <p>$${el.price}</p>
-      `;
+    <div class="img-container">
+      <img src="${el.image.desktop}" alt="${el.name}" />
+      <button class="add-btn ${
+        quantity > 0 ? "js-display" : ""
+      }">Add to cart</button>
+      <div class="btn-group ${quantity > 0 ? "" : "js-display"}">
+        <button class="increment-btn">+</button>
+        <span id="quantity-${idx + 1}">${quantity}</span>
+        <button class="decrement-btn">-</button>
+      </div> 
+    </div>
+    <h3>${el.name}</h3>
+    <p>$${el.price}</p>
+  `;
 
     // HTML elementlarini aniqlaymiz
     let addBtn = card.querySelector(".add-btn");
@@ -144,6 +140,7 @@ const displayCards = () => {
     // "Add to cart" tugmasiga event listener qo'shamiz
     addBtn.addEventListener("click", () => {
       let isExisting = cart.find((c) => c.name === el.name);
+      console.log("IsExisting: ", isExisting);
       if (!isExisting) {
         // Agar element hali kartaga qo'shilmagan bo'lsa
         cart.push({ ...el, quantity: 1 });
@@ -151,6 +148,8 @@ const displayCards = () => {
         // Agar element allaqachon kartada bo'lsa, uning miqdorini oshiramiz
         isExisting.quantity++;
       }
+
+      console.log("cart: ", cart);
 
       // Kartani yangilash
       isInCart = cart.find((c) => c.name === el.name);
@@ -184,7 +183,6 @@ const displayCards = () => {
       if (isExisting && isExisting.quantity > 0) {
         isExisting.quantity--;
         quantity = isExisting.quantity;
-        console.log("Yangilangan cart:", cart);
 
         // Agar miqdor 0 bo'lsa, kartani yashiramiz
         if (quantity === 0) {
@@ -196,17 +194,18 @@ const displayCards = () => {
         // UI ni yangilash
         card.querySelector(`#quantity-${idx + 1}`).innerText = quantity;
         renderCartProducts();
+        console.log("Yangilangan cart:", cart);
       }
     });
 
     // Tayyorlangan kartani `cardsWrapper` ga qo'shamiz
     cardsWrapper.appendChild(card);
-
-    renderCartProducts();
   });
 };
 
 let listWrapper = document.querySelector(".wrapper-list");
+console.log(listWrapper);
+// basket rendering function
 const renderCartProducts = () => {
   // Kartalar uzunligini yangilash
   let cartLength = document.querySelector("#count_cart");
@@ -223,7 +222,6 @@ const renderCartProducts = () => {
     orderSection.classList.remove("js-display");
 
     listWrapper.innerHTML = "";
-    // Cart ni yangilash
     cart.forEach((el, index) => {
       let productList = document.createElement("div");
       productList.classList.add("your-products-li");
@@ -252,10 +250,10 @@ const renderCartProducts = () => {
       removeBtn.addEventListener("click", () => {
         // Cartdan mahsulotni o'chirish
         cart = cart.filter((item) => item.name !== el.name);
-
-        // // UI-ni qayta chizish
-        // renderCartProducts();
+        console.log(cart);
+        // UI-ni qayta chizish
         displayCards();
+        renderCartProducts();
       });
 
       // total price:
@@ -288,26 +286,61 @@ let confirmBtn = document.querySelector("#btn-confirm");
 
 confirmBtn.addEventListener("click", () => {
   modalBackdrop.classList.remove("js-display");
+  renderModalItems();
 });
 
 modalBackdrop.addEventListener("click", () => {
-  console.log("Modal backdrop clicked");
-})
-
-modalCard.addEventListener("click", (event) => {
-  event.stopPropagation(); // Hodisani modalCard'ga o'tishini to'xtatadi
-  console.log("Modal card clicked");
+  modalBackdrop.classList.add("js-display");
+  console.log("modalBackdrop clicked");
 });
 
-startNewOrderBtn.addEventListener("click", (event) => {
-  event.stopPropagation(); // Hodisani modalBackdrop'ga o'tishini to'xtatadi
-  console.log("Start new order button clicked");
+modalCard.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+
+startNewOrderBtn.addEventListener("click", () => {
   modalBackdrop.classList.add("js-display");
   cart = [];
-  renderCartProducts();
   displayCards();
+  renderCartProducts();
 });
 
-// Har safar kartalar o'zgarganda UI yangilanadi
-renderCartProducts();
+// render model cards
+
+const renderModalItems = () => {
+  let modalItemsWrapper = document.querySelector(".modal-wrapper-list");
+  modalItemsWrapper.innerHTML = "";
+
+  cart.forEach((el, index) => {
+    let modalLi = document.createElement("li");
+    modalLi.classList.add("modal-cart-item");
+
+    modalLi.innerHTML = `
+              <div class="modal-items">
+                <img
+                  class="modal-cart-img"
+                  src="${el.image.desktop}"
+                  alt="dessert"
+                />
+                <div class="modal-cart-info">
+                  <h3>${el.name}</h3>
+                  <div class="cart_item_info">
+                    <span class="quantity">x${el.quantity}</span>
+                    •
+                    <span class="price">$${el.price}</span>
+                  </div>
+                </div>
+              </div>
+              <div>$${el.quantity * el.price}</div>
+    `;
+
+    // total price:
+    let totalPrice = document.querySelector("#total-price-modal");
+    totalPrice.innerText = `$${findTotalPrice()}`;
+
+    modalItemsWrapper.appendChild(modalLi);
+  });
+};
+
 displayCards();
+renderCartProducts();
